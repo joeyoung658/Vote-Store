@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Voting:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Voting_jar</output-path>
+    <root id="archive" name="Voting.jar">
+      <element id="module-output" name="Voting" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../FirstPlugin/out/artifacts/FirstPlugin_jar/FirstPlugin.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Spigot API/TNE.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Spigot API/nuvotifier-2.7.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../Spigot API/spigot-api-1.16.2-R0.1-SNAPSHOT.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

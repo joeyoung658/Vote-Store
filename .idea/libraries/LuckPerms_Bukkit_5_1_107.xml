@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="LuckPerms-Bukkit-5.1.107">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../Spigot API/LuckPerms-Bukkit-5.1.107.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

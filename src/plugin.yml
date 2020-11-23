@@ -1,0 +1,20 @@
+name: Voting-Rewards
+version: 3.0
+author: Origin
+main: Origin.Voting.Main
+depend: [Votifier, TheNewEconomy, FirstPlugin]
+api-version: 1.16
+permissions:
+    vote.donor1:
+      description: 'Doubles vote reward!'
+    vote.donor2:
+      description: 'Doubles vote reward!'
+      default: op
+commands:
+    topvoters:
+      description: 'Views the list of top voters'
+    chips:
+      description: 'View amount of votes'
+      aliases: [bal, money, balance, chip, votes]
+    store:
+      description: 'Where you can spend your chips!'
