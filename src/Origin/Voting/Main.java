@@ -159,10 +159,10 @@ public class Main extends JavaPlugin implements Listener{
         if (ThreadLocalRandom.current().nextInt(100) == 5) {
             coins = 50;
         }
-        if (ThreadLocalRandom.current().nextInt(250) == 5) {
+        if (ThreadLocalRandom.current().nextInt(500) == 5) {
            coins = 100;
         }
-        if (ThreadLocalRandom.current().nextInt(250) == 5) {
+        if (ThreadLocalRandom.current().nextInt(1000) == 5) {
             coins = 1000;
         }
         if (coins == 0) {

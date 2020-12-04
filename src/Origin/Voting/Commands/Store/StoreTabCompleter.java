@@ -28,7 +28,6 @@ public class StoreTabCompleter implements TabCompleter {
                 }
             }
         }
-
         return null;
     }
 }
