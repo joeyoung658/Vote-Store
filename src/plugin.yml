@@ -18,3 +18,5 @@ commands:
       aliases: [bal, money, balance, chip, votes]
     store:
       description: 'Where you can spend your chips!'
+    avote:
+        description: 'Administrative commands for Voting rewards!'

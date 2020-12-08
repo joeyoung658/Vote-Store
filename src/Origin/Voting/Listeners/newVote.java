@@ -28,10 +28,8 @@ public class newVote {
 
             BigDecimal voteReward = new BigDecimal(1);
             addToBal(player,voteReward);
-
             coinRewardMessage(target, 1);
             luckyVote(target);
-            voteReward(target);
 
         } else { //If player is not online
             Main.instance.getLogger().info(v.getUsername() + " was not online so no rewards were given.");
@@ -55,40 +53,15 @@ public class newVote {
             Bukkit.broadcastMessage(player.getDisplayName() + ChatColor.GOLD + " was extra lucky and received " + ChatColor.GREEN +  coins.toString()   +
                     " chips!");
             BigDecimal luckyVoteReward = new BigDecimal(coins);
+
             addToBal(player,luckyVoteReward);
+
             coinRewardMessage(player, coins);
             return;
         }
     }
 
-    private void voteReward(Player player){
-        if (Main.votec.containsKey(player.getName())) { //Updates vote counter
-            Main.votec.put(player.getName(), Main.votec.get(player.getName()) + 1);
-        } else {
-            Main.votec.put(player.getName(), 1);
-        }
-
-        Integer playersVotes = Main.votec.get(player.getName());
-        if (playersVotes == 30){
-            //Give player a ticket
-        }
-        else if (playersVotes == 60){
-            //Give player a ticket
-        }
-        else if (playersVotes == 90){
-            //Give player two tickets
-
-
-            BigDecimal standardVoteReward = new BigDecimal(200);
-            addToBal(player,standardVoteReward);
-            coinRewardMessage(player, 200);
-
-        }
-
-
-    }
-
-    private void coinRewardMessage (Player player, Integer coins) {
+    public static void coinRewardMessage(Player player, Integer coins) {
         player.sendMessage(ChatColor.DARK_RED + "You have received " + ChatColor.AQUA + coins.toString() + " chips"+ ChatColor.DARK_RED + ", which can be spent on in game perks!");
         return;
     }

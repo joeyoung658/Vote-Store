@@ -1,15 +1,11 @@
 package Origin.Voting.Commands;
 
-import Origin.Voting.Main;
 import net.tnemc.core.TNE;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class myChips implements CommandExecutor {
 

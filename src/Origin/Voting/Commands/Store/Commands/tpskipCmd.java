@@ -2,15 +2,9 @@ package Origin.Voting.Commands.Store.Commands;
 
 import Origin.Voting.Commands.Store.StoreCommandInterface;
 import Origin.Voting.Commands.Store.StorePurchase;
-import Origin.Voting.TNE.balance;
-import net.tnemc.core.TNE;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.math.BigDecimal;
 
 public class tpskipCmd  implements StoreCommandInterface
 {
