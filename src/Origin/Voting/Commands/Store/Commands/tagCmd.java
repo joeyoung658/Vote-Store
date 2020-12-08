@@ -19,7 +19,6 @@ public class tagCmd implements StoreCommandInterface
     public boolean onCommand(CommandSender sender, Command cmd,
                              String commandLabel, String[] args) {
         Player p = (Player) sender;
-
         //erm confused
         //We don't have to check if the args length is equal to one, but you will have to check if it is greater than 1.
         if(args.length > 1) return false;

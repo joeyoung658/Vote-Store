@@ -9,32 +9,26 @@ package Origin.Voting;
 
 */
 
-import England.Origin.FirstPlugin.Listeners.PlayerJoin;
 import Origin.Voting.Commands.Store.Commands.*;
 import Origin.Voting.Commands.Store.StoreCommandHandler;
 import Origin.Voting.Commands.Store.StorePurchase;
 import Origin.Voting.Commands.Store.StoreTabCompleter;
 import Origin.Voting.Commands.Store.storeCmd;
 import Origin.Voting.Commands.myChips;
+import Origin.Voting.Listeners.newVote;
 import Origin.Voting.Listeners.playerJoinVote;
-import com.vexsoftware.votifier.model.Vote;
-import com.vexsoftware.votifier.model.VotifierEvent;
-import org.bukkit.*;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
+import Origin.Voting.Runnables.saveVotes;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
-
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.HashMap;
 
 import static Origin.Voting.Data.Votes.saveVotes.saveVotes;
 import static Origin.Voting.Data.Votes.votesToHash.votesToHash;
-import static Origin.Voting.TNE.balance.addToBal;
+import static Origin.Voting.Data.createConfig.createConfig;
 
 
 public class Main extends JavaPlugin implements Listener{
@@ -47,14 +41,21 @@ public class Main extends JavaPlugin implements Listener{
         instance = this;
 
 
-       // createConfig();
+        createConfig();
         votesToHash();
-        saveVotesToFile();
+
+
+        BukkitTask saveVotes =
+                new saveVotes(this)
+                        .runTaskTimerAsynchronously
+                                (this, (20l * 60) * 30, (20l * 60) * 30);
+
 
 
         registerCommands();
-
         registerListeners();
+
+
         getLogger().info("Voting-Rewards has been enabled");
     }
 
@@ -69,9 +70,7 @@ public class Main extends JavaPlugin implements Listener{
 
     public void registerCommands() {
         registerStoreCommnds();
-
         this.getCommand("chips").setExecutor(new myChips());
-        //this.getCommand("estore").setExecutor(new purchaseCommand());
     }
 
 
@@ -127,95 +126,8 @@ public class Main extends JavaPlugin implements Listener{
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new playerJoinVote(), this);
+        getServer().getPluginManager().registerEvents((Listener) new newVote(), this);
     }
 
-    @EventHandler(priority= EventPriority.NORMAL)
-    public void onVotifierEvent(VotifierEvent event) {
-        Vote v = event.getVote();
-        Player player = Bukkit.getServer().getPlayer(v.getUsername()); //sets player as the voter
-        Player target = Bukkit.getPlayerExact(v.getUsername()); //sets player as target
-
-        if (!(target == null)) { //Checks if player is online
-            Bukkit.broadcastMessage(target.getDisplayName() + ChatColor.RED + " has voted @ " + ChatColor.GREEN + v.getServiceName()
-                    + ChatColor.RED + " Type " + ChatColor.GREEN + "/vote " + ChatColor.RED + "to find out how to vote!");
-
-            BigDecimal voteReward = new BigDecimal(1);
-            addToBal(player,voteReward);
-
-            coinRewardMessage(target, 1);
-            luckyVote(target);
-            voteReward(target);
-
-        } else { //If player is not online
-            Main.instance.getLogger().info(v.getUsername() + " was not online so no rewards were given.");
-        }
-    }
-
-
-
-
-    private void luckyVote (Player player){
-        Integer coins = 0;
-        if (ThreadLocalRandom.current().nextInt(100) == 5) {
-            coins = 50;
-        }
-        if (ThreadLocalRandom.current().nextInt(500) == 5) {
-           coins = 100;
-        }
-        if (ThreadLocalRandom.current().nextInt(1000) == 5) {
-            coins = 1000;
-        }
-        if (coins == 0) {
-            return;
-        } else {
-            Bukkit.broadcastMessage(player.getDisplayName() + ChatColor.GOLD + " was extra lucky and received " + ChatColor.GREEN +  coins.toString()   +
-                    " chips!");
-            BigDecimal luckyVoteReward = new BigDecimal(coins);
-            addToBal(player,luckyVoteReward);
-            coinRewardMessage(player, coins);
-            return;
-        }
-    }
-
-    private void voteReward(Player player){
-        if (votec.containsKey(player.getName())) { //Updates vote counter
-            votec.put(player.getName(), votec.get(player.getName()) + 1);
-        } else {
-            votec.put(player.getName(), 1);
-        }
-
-        Integer playersVotes = votec.get(player.getName());
-        if (playersVotes == 30){
-            //Give player a ticket
-        }
-        else if (playersVotes == 60){
-            //Give player a ticket
-        }
-        else if (playersVotes == 90){
-            //Give player two tickets
-
-
-            BigDecimal standardVoteReward = new BigDecimal(200);
-            addToBal(player,standardVoteReward);
-            coinRewardMessage(player, 200);
-
-        }
-
-
-    }
-
-    private void coinRewardMessage (Player player, Integer coins) {
-        player.sendMessage(ChatColor.DARK_RED + "You have received " + ChatColor.AQUA + coins.toString() + " chips"+ ChatColor.DARK_RED + ", which can be spent on in game perks!");
-        return;
-    }
-
-    private void saveVotesToFile(){
-        Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((Plugin) this, new Runnable() {
-            @Override
-            public void run() {
-                saveVotes();
-            }
-        }, (20l * 60) * 30) ;
-    }
 
 }
