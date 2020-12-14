@@ -2,13 +2,16 @@ name: Voting-Rewards
 version: 3.0
 author: Origin
 main: Origin.Voting.Main
-depend: [Votifier, TheNewEconomy, FirstPlugin]
+depend: [Votifier, TheNewEconomy]
 api-version: 1.16
 permissions:
     vote.donor1:
       description: 'Doubles vote reward!'
     vote.donor2:
       description: 'Doubles vote reward!'
+      default: op
+    voting.avote:
+      description: 'Allows admins to manage the voting tables'
       default: op
 commands:
     topvoters:

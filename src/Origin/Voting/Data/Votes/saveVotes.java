@@ -2,9 +2,11 @@ package Origin.Voting.Data.Votes;
 
 import Origin.Voting.Main;
 
+import java.util.UUID;
+
 public class saveVotes {
     public static void saveVotes() {
-        for(String vote : Main.votec.keySet()) {
+        for(UUID vote : Main.votec.keySet()) {
             int value = Main.votec.get(vote);
             Main.instance.getConfig().set("votec." + vote, value);
         }

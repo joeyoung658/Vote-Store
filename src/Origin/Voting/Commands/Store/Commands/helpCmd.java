@@ -19,10 +19,11 @@ public class helpCmd implements StoreCommandInterface {
         player.sendMessage(ChatColor.GREEN + "          All Ace Store commands");
         player.sendMessage(ChatColor.RED + "-------------------------------------------------");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE + "/store home - 10 Chips");
+        player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store land - 100 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store craftingtable - 25 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store nickname - 25 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store hat - 25 Chips");
-        player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store tag - 25 Chips");
+        player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store prefix - 25 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store tpskip - 100 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store togglekeepexp - 150 Chips");
         player.sendMessage(ChatColor.AQUA + "> " + ChatColor.LIGHT_PURPLE +  "/store togglekeepinven - 500 Chips");

@@ -6,7 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class tagCmd implements StoreCommandInterface
+public class prefixCmd implements StoreCommandInterface
 {
 
     @Override
@@ -16,8 +16,8 @@ public class tagCmd implements StoreCommandInterface
         //erm confused
         //We don't have to check if the args length is equal to one, but you will have to check if it is greater than 1.
         if(args.length > 1) return false;
-        String commandName = "tag";
-        String permission = "<FP>.apcustom";
+        String commandName = "prefix";
+        String permission = "<FP>.prefix";
         StorePurchase storePurchase = new StorePurchase();
         storePurchase.purchaseCommand(p,commandName,permission);
         return false;

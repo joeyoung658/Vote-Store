@@ -16,27 +16,8 @@ import static Origin.Voting.TNE.balance.addToBal;
 
 public class newVote {
 
-    @EventHandler(priority= EventPriority.NORMAL)
-    public void onVotifierEvent(VotifierEvent event) {
-        Vote v = event.getVote();
-        Player player = Bukkit.getServer().getPlayer(v.getUsername()); //sets player as the voter
-        Player target = Bukkit.getPlayerExact(v.getUsername()); //sets player as target
 
-        if (!(target == null)) { //Checks if player is online
-            Bukkit.broadcastMessage(target.getDisplayName() + ChatColor.RED + " has voted @ " + ChatColor.GREEN + v.getServiceName()
-                    + ChatColor.RED + " Type " + ChatColor.GREEN + "/vote " + ChatColor.RED + "to find out how to vote!");
-
-            BigDecimal voteReward = new BigDecimal(1);
-            addToBal(player,voteReward);
-            coinRewardMessage(target, 1);
-            luckyVote(target);
-
-        } else { //If player is not online
-            Main.instance.getLogger().info(v.getUsername() + " was not online so no rewards were given.");
-        }
-    }
-
-    private void luckyVote (Player player){
+    public static void luckyVote (Player player){
         Integer coins = 0;
         if (ThreadLocalRandom.current().nextInt(100) == 5) {
             coins = 50;

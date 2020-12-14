@@ -20,7 +20,7 @@ public class fakeVoteCmd implements AdminCommandInterface {
 
 
         AdminMsg adminMsg = new AdminMsg(sender);
-        if (args.length > 2){
+        if (args.length < 2){
             adminMsg.incorrectArgs();
             return false;
         }

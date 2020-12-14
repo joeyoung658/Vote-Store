@@ -12,6 +12,7 @@ package Origin.Voting;
 import Origin.Voting.Commands.Admin.AdminCommandHandler;
 import Origin.Voting.Commands.Admin.AdminTabCompleter;
 import Origin.Voting.Commands.Admin.Commands.*;
+import Origin.Voting.Commands.Admin.adminCmd;
 import Origin.Voting.Commands.Store.Commands.*;
 import Origin.Voting.Commands.Store.StoreCommandHandler;
 import Origin.Voting.Commands.Store.StorePurchase;
@@ -21,7 +22,13 @@ import Origin.Voting.Commands.myChips;
 import Origin.Voting.Listeners.newVote;
 import Origin.Voting.Listeners.playerJoinVote;
 import Origin.Voting.Runnables.saveVotes;
+import com.vexsoftware.votifier.model.Vote;
+import com.vexsoftware.votifier.model.VotifierEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -31,8 +38,11 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static Origin.Voting.Data.Votes.saveVotes.saveVotes;
-import static Origin.Voting.Data.Votes.votesToHash.votesToHash;
 import static Origin.Voting.Data.createConfig.createConfig;
+import static Origin.Voting.Listeners.newVote.coinRewardMessage;
+
+import static Origin.Voting.Listeners.newVote.luckyVote;
+import static Origin.Voting.TNE.balance.addToBal;
 
 
 public class Main extends JavaPlugin implements Listener{
@@ -43,12 +53,12 @@ public class Main extends JavaPlugin implements Listener{
     public void onEnable() {
 
         instance = this;
-        createConfig();
-        votesToHash();
-        BukkitTask saveVotes =
-                new saveVotes(this)
-                        .runTaskTimerAsynchronously
-                                (this, (20l * 60) * 30, (20l * 60) * 30);
+//        createConfig();
+//
+//        BukkitTask saveVotes =
+//                new saveVotes(this)
+//                        .runTaskTimerAsynchronously
+//                                (this, (20l * 60) * 30, (20l * 60) * 30);
         registerCommands();
         registerListeners();
 
@@ -99,8 +109,8 @@ public class Main extends JavaPlugin implements Listener{
         StoreCommands.register("tpskip", new tpskipCmd());
         storePurchase.registerCommandCost("tpskip", new BigDecimal(100));
 
-        StoreCommands.register("tag", new tagCmd());
-        storePurchase.registerCommandCost("tag", new BigDecimal(25));
+        StoreCommands.register("prefix", new prefixCmd());
+        storePurchase.registerCommandCost("prefix", new BigDecimal(25));
 
         StoreCommands.register("hat", new hatCmd());
         storePurchase.registerCommandCost("hat", new BigDecimal(25));
@@ -114,6 +124,9 @@ public class Main extends JavaPlugin implements Listener{
         StoreCommands.register("home", new homeCmd());
         storePurchase.registerCommandCost("home", new BigDecimal(10));
 
+        StoreCommands.register("land", new landCmd());
+        storePurchase.registerCommandCost("land", new BigDecimal(100));
+
         StoreCommands.register("help", new helpCmd());
         getCommand("store").setExecutor(StoreCommands);
         getCommand("store").setTabCompleter(new StoreTabCompleter());
@@ -123,12 +136,14 @@ public class Main extends JavaPlugin implements Listener{
     private void registerAdminCommands(){
         AdminCommandHandler AdminCommands = new AdminCommandHandler();
 
-        AdminCommands.register("check", new checkVotesCmd());
-        AdminCommands.register("clear", new clearVotesCmd());
-        AdminCommands.register("edit", new editVotesCmd());
+        AdminCommands.register("avote", new adminCmd());
+
+        //AdminCommands.register("check", new checkVotesCmd());
+        //AdminCommands.register("clear", new clearVotesCmd());
+        //AdminCommands.register("edit", new editVotesCmd());
         AdminCommands.register("fake", new fakeVoteCmd());
-        AdminCommands.register("raffle", new raffleCmd());
-        AdminCommands.register("save", new saveVotesCmd());
+        //AdminCommands.register("raffle", new raffleCmd());
+        //AdminCommands.register("save", new saveVotesCmd());
 
         getCommand("avote").setExecutor(AdminCommands);
         getCommand("avote").setTabCompleter(new AdminTabCompleter());
@@ -139,8 +154,28 @@ public class Main extends JavaPlugin implements Listener{
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new playerJoinVote(), this);
-        getServer().getPluginManager().registerEvents((Listener) new newVote(), this);
     }
+
+    @EventHandler(priority= EventPriority.NORMAL)
+    public void onVotifierEvent(VotifierEvent event) {
+        Vote v = event.getVote();
+        Player player = Bukkit.getServer().getPlayer(v.getUsername()); //sets player as the voter
+        Player target = Bukkit.getPlayerExact(v.getUsername()); //sets player as target
+
+        if (!(target == null)) { //Checks if player is online
+            Bukkit.broadcastMessage(target.getDisplayName() + ChatColor.RED + " has voted @ " + ChatColor.GREEN + v.getServiceName()
+                    + ChatColor.RED + " Type " + ChatColor.GREEN + "/vote " + ChatColor.RED + "to find out how to vote!");
+
+            BigDecimal voteReward = new BigDecimal(1);
+            addToBal(player,voteReward);
+            coinRewardMessage(target, 1);
+            luckyVote(target);
+
+        } else { //If player is not online
+            Main.instance.getLogger().info(v.getUsername() + " was not online so no rewards were given.");
+        }
+    }
+
 
 
 }
