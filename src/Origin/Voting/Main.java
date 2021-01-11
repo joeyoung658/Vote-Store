@@ -63,7 +63,10 @@ public class Main extends JavaPlugin implements Listener{
         registerListeners();
 
 
+        getLogger().info("--------------------------------");
         getLogger().info("Voting-Rewards has been enabled");
+        getLogger().info("Author - Origin658");
+        getLogger().info("--------------------------------");
     }
 
 

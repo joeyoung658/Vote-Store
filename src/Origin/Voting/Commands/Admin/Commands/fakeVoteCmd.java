@@ -30,7 +30,6 @@ public class fakeVoteCmd implements AdminCommandInterface {
             adminMsg.offlineTarget();
             return false;
         }
-
             if (Main.votec.containsKey(target.getUniqueId())) { //If user already in map
                 Main.votec.put(target.getUniqueId(), Main.votec.get(target.getUniqueId())+1);
             } else {
